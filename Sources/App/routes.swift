@@ -86,6 +86,43 @@ public func routes(_ router: Router) throws {
             .all()
     }
     
+    // MARK: - GPSInfo API
+    router.post("api", "gpsinfos") { req -> Future<GPSARInfo> in
+        return try req.content.decode(GPSARInfo.self)
+            .flatMap(to: GPSARInfo.self) { gpsinfo in
+                return gpsinfo.save(on: req)
+            }
+    }
+    
+    router.get("api", "gpsinfos") { req -> Future<[GPSARInfo]> in
+        return GPSARInfo.query(on: req).all()
+    }
+    
+    router.get("api", "gpsinfos", GPSARInfo.parameter) { req -> Future<GPSARInfo> in
+        return try req.parameters.next(GPSARInfo.self)
+    }
+    
+
+    router.put("api", "gpsinfos", GPSARInfo.parameter) { req -> Future<GPSARInfo> in
+        return try flatMap(to: GPSARInfo.self,
+                           req.parameters.next(GPSARInfo.self),
+                           req.content.decode(GPSARInfo.self)) {
+                            info, updateInfo in
+                            info.name = updateInfo.name
+                            info.photoName = updateInfo.photoName
+                            info.area = updateInfo.area
+                            info.price = updateInfo.price
+                            return info.save(on: req)
+        }
+    }
+    
+    router.delete("api", "gpsinfos", GPSARInfo.parameter) { req -> Future<HTTPStatus> in
+        return try req.parameters.next(GPSARInfo.self)
+            .delete(on: req)
+            .transform(to: .noContent)
+    }
+
+    
     
     
 
