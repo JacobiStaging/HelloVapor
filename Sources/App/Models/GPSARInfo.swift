@@ -14,12 +14,19 @@ final class GPSARInfo: Codable {
     var photoName: String
     var area: Double
     var price: Double
+    var latitude: Double
+    var longitude: Double
+    var altitide: Double
+
     
-    init(name: String, photoName: String, area: Double, price: Double) {
+    init(name: String, photoName: String, area: Double, price: Double, latitude: Double, longitude: Double, altitide: Double) {
         self.name = name
         self.photoName = photoName
         self.area = area
         self.price = price
+        self.latitude = latitude
+        self.longitude = longitude
+        self.altitide = altitide
     }
 }
 

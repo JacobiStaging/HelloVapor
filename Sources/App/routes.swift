@@ -112,6 +112,9 @@ public func routes(_ router: Router) throws {
                             info.photoName = updateInfo.photoName
                             info.area = updateInfo.area
                             info.price = updateInfo.price
+                            info.latitude = updateInfo.latitude
+                            info.longitude = updateInfo.longitude
+                            info.altitide = updateInfo.altitide
                             return info.save(on: req)
         }
     }
@@ -122,9 +125,6 @@ public func routes(_ router: Router) throws {
             .transform(to: .noContent)
     }
 
-    
-    
-    
 
     // Example of configuring a controller
     let todoController = TodoController()

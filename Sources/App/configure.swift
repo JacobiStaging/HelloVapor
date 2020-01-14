@@ -18,14 +18,14 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(middlewares)
 
     // Configure a SQLite database
-//    let sqlite = try SQLiteDatabase(storage: .memory)
-    let database = try SQLiteDatabase(storage: .file(path: "db.sqlite"))
+    let sqlite = try SQLiteDatabase(storage: .memory)
+//    let database = try SQLiteDatabase(storage: .file(path: "db.sqlite"))
 
     // Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()
-//    databases.add(database: sqlite, as: .sqlite)
+    databases.add(database: sqlite, as: .sqlite)
 
-    databases.add(database: database, as: .sqlite)
+//    databases.add(database: database, as: .sqlite)
     services.register(databases)
 
     // Configure migrations
