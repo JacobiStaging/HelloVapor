@@ -58,6 +58,13 @@ public func routes(_ router: Router) throws {
         }
     }
     
+    router.delete("api", "acronyms") { req -> Future<HTTPStatus> in
+        return Acronym.query(on: req)
+            .delete()
+            .transform(to: .ok)
+            
+    }
+    
     
     // 1. Register a route for a DELETE request to /api/acronyms/<ID> that returns Future<HTTPStatus>.
     router.delete("api", "acronyms", Acronym.parameter) { req -> Future<HTTPStatus> in
@@ -124,7 +131,27 @@ public func routes(_ router: Router) throws {
             .delete(on: req)
             .transform(to: .noContent)
     }
+    
+    struct IndexCount: Encodable {
+        let title: String
+        let acronyms: [Acronym]?
+    }
 
+    router.get { req -> Future<View> in
+        return Acronym.query(on: req)
+            .all()
+            .flatMap(to: View.self, { acronyms in
+                let acronymsData = acronyms.isEmpty ? nil : acronyms
+                let context = IndexCount(title: "Home page", acronyms: acronymsData)
+                return try req.view().render("index", context)
+            })
+    }
+    
+    router.delete("api", "gpsinfos") {  req -> Future<HTTPStatus> in
+        return GPSARInfo.query(on: req)
+            .delete()
+            .transform(to: .ok)
+    }
 
     // Example of configuring a controller
     let todoController = TodoController()

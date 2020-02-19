@@ -1,5 +1,6 @@
 import FluentSQLite
 import Vapor
+import Leaf
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
@@ -18,14 +19,14 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     services.register(middlewares)
 
     // Configure a SQLite database
-    let sqlite = try SQLiteDatabase(storage: .memory)
-//    let database = try SQLiteDatabase(storage: .file(path: "db.sqlite"))
+//    let sqlite = try SQLiteDatabase(storage: .memory)
+    let database = try SQLiteDatabase(storage: .file(path: "db.sqlite"))
 
     // Register the configured SQLite database to the database config.
     var databases = DatabasesConfig()
-    databases.add(database: sqlite, as: .sqlite)
+//    databases.add(database: sqlite, as: .sqlite)
 
-//    databases.add(database: database, as: .sqlite)
+    databases.add(database: database, as: .sqlite)
     services.register(databases)
 
     // Configure migrations
@@ -34,4 +35,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     migrations.add(model: Acronym.self, database: .sqlite)
     migrations.add(model: GPSARInfo.self, database: .sqlite)
     services.register(migrations)
+    
+    try services.register(LeafProvider())
+    config.prefer(LeafRenderer.self, for: ViewRenderer.self)
 }
