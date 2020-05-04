@@ -6,7 +6,7 @@
 //
 
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 
 final class Acronym: Codable {
     var id: Int?
@@ -19,9 +19,9 @@ final class Acronym: Codable {
     }
 }
 
-extension Acronym: SQLiteModel {
+extension Acronym: PostgreSQLModel {
     // 1. Tell Fluent what database to use for this model. The template is already configured to use SQLite.
-    typealias Database = SQLiteDatabase
+    typealias Database = PostgreSQLDatabase
     
     // 2. Tell Fluent what type the ID is.
     typealias ID = Int
@@ -34,7 +34,7 @@ extension Acronym: SQLiteModel {
 //
 //}
 
-extension Acronym: SQLiteMigration {
+extension Acronym: PostgreSQLMigration {
     
 }
 

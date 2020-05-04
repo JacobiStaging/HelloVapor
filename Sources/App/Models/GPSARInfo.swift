@@ -6,7 +6,7 @@
 //
 
 import Vapor
-import FluentSQLite
+import FluentPostgreSQL
 
 final class GPSARInfo: Codable {
     var id: Int?
@@ -30,15 +30,15 @@ final class GPSARInfo: Codable {
     }
 }
 
-extension GPSARInfo: SQLiteModel {
-    typealias Database = SQLiteDatabase
+extension GPSARInfo: PostgreSQLModel {
+    typealias Database = PostgreSQLDatabase
     
     typealias ID = Int
     
     public static var idKey: IDKey = \GPSARInfo.id
 }
 
-extension GPSARInfo: SQLiteMigration {
+extension GPSARInfo: PostgreSQLMigration {
     
 }
 
