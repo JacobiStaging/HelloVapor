@@ -1,0 +1,32 @@
+#set("content") {
+<h1>#(title)</h1>
+    #if(infos) {
+      <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+              <tr>
+                  <th>Name</th>
+                  <th>Area</th>
+                  <th>Price</th>
+                  <th>Latitude</th>
+                  <th>Longitude</th>
+                  <th>Altitide</th>
+              </tr>
+          </thead>
+          <tbody>
+          #for(info in infos) {
+              <tr>
+                  <td>#(info.name)</td>
+                  <td>#(info.area)</td>
+                  <td>#(info.price)</td>
+                  <td>#(info.latitude)</td>
+                  <td>#(info.longitude)</td>
+                  <td>#(info.altitide)</td>
+              </tr>
+          }
+          </tbody>
+      </table>
+    } else {
+      <h2> There aren’t any gps information yet! </h2>
+    }
+}
+#embed("base")

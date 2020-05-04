@@ -8,6 +8,7 @@ struct InfoResponse: Content {
     let request: InfoData
 }
 
+
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
     // Basic "It works" example
@@ -137,6 +138,10 @@ public func routes(_ router: Router) throws {
         let acronyms: [Acronym]?
     }
 
+    struct GpsInfos: Encodable {
+        let title: String
+        let infos: [GPSARInfo]?
+    }
     router.get { req -> Future<View> in
         return Acronym.query(on: req)
             .all()
@@ -151,6 +156,16 @@ public func routes(_ router: Router) throws {
         return GPSARInfo.query(on: req)
             .delete()
             .transform(to: .ok)
+    }
+    
+    router.get("api", "gpsview") { req -> Future<View> in
+        return GPSARInfo.query(on: req)
+        .all()
+        .flatMap(to: View.self) { gpsinfos in
+            let infosData = gpsinfos.isEmpty ? nil : gpsinfos
+            let context = GpsInfos(title: "GPS 資訊", infos: infosData)
+            return try req.view().render("gpsinfos", context)
+        }
     }
 
     // Example of configuring a controller
