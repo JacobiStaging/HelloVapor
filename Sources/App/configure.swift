@@ -24,7 +24,7 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var databases = DatabasesConfig()
     
     let databaseConfig: PostgreSQLDatabaseConfig
-    if let url = Environment.get("postgres://bsiuvbgsfilmwh:ed7967d6c4552b706ec65f00f35921f724188a7dc9340916c95478e4d219269f@ec2-50-17-90-177.compute-1.amazonaws.com:5432/de0tm180s9eb1u") {
+    if let url = Environment.get("DATABASE_URL") {
         databaseConfig = PostgreSQLDatabaseConfig(url: url)!
     }
     else {
